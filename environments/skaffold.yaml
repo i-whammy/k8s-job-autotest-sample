@@ -2,8 +2,16 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: k8s-job-autotest-sample
+build:
+  artifacts:
+    - image: hello-world-timer
+      context: .
+      docker:
+        dockerfile: apps/Dockerfile
+  local:
+    useBuildkit: true
 deploy:
   helm:
     releases:
-      - name: hello-world-job
-        chartPath: charts/hello-world-job
+      - name: hello-world-timer-job
+        chartPath: charts/hello-world-timer-job

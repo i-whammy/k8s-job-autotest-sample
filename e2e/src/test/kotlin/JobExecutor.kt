@@ -7,12 +7,13 @@ interface JobExecutor {
 
 class SkaffoldRunner: JobExecutor {
     private val skaffoldYamlDirectory = File("../environments")
+    private val imageTag = "stable" // TODO: Read config file and change tag
 
     @Step("Run k8s job with skaffold")
     override fun execute() {
         val installer = ProcessBuilder(listOf("aqua", "i"))
-        val remover = ProcessBuilder(listOf("kubectl", "delete", "jobs", "hello-world", "--ignore-not-found"))
-        val runner = ProcessBuilder(listOf("skaffold", "run"))
+        val remover = ProcessBuilder(listOf("kubectl", "delete", "jobs", "hello-world-timer-job", "--ignore-not-found"))
+        val runner = ProcessBuilder(listOf("skaffold", "run", "--tag", imageTag))
         val processBuilders = listOf(
             installer, remover, runner
         )

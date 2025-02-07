@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-world-timer-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: hello-world-timer
+          image: hello-world-timer
+      restartPolicy: Never

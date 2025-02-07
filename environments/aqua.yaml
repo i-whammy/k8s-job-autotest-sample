@@ -12,3 +12,4 @@ registries:
   ref: v4.307.0 # renovate: depName=aquaproj/aqua-registry
 packages:
 - name: helm/helm@v3.17.0
+- name: GoogleContainerTools/skaffold@v2.14.1
