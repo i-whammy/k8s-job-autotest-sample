@@ -4,32 +4,31 @@ metadata:
   name: k8s-job-autotest-sample
 build:
   artifacts:
-    - image: hello-world-timer
+    - image: localhost:5000/hello-world-timer
       context: .
       docker:
         dockerfile: apps/Dockerfile
   local:
     useBuildkit: true
+    push: true
+deploy:
+  helm:
+    releases:
+      - name: hello-world-timer-job
+        chartPath: apps/helm
+        setValueTemplates:
+          image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
+        setValues:
+          image.PullPolicy: "IfNotPresent"
 
 profiles:
-- name: dev
-  deploy:
-    helm:
-      releases:
-        - name: hello-world-timer-job
-          chartPath: charts/hello-world-timer-job
-          setValueTemplates:
-            image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
-          setValues:
-            image.PullPolicy: "IfNotPresent"
 - name: prod
   deploy:
     helm:
       releases:
         - name: hello-world-timer-job
-          chartPath: charts/hello-world-timer-job
-          setValueTemplates:
-            image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
-          setValues:
-            image.PullPolicy: "IfNotPresent"
-            # image.PullPolicy: "Always" // set Always here when remote repository is available
+          chartPath: apps/helm
+            # setValueTemplates:
+            #   image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
+            # setValues:
+            #   image.PullPolicy: "Always"

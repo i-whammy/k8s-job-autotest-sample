@@ -1,4 +1,4 @@
 FROM busybox
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/sh", "-c"]
 ENTRYPOINT echo "Hello world, now is" $(date)

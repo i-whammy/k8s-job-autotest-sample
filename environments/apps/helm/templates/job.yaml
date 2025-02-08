@@ -7,6 +7,6 @@ spec:
     spec:
       containers:
         - name: hello-world-timer
-          image: hello-world-timer
+          image: localhost:5000/hello-world-timer
           imagePullPolicy: {{ .Values.image.pullPolicy }}
       restartPolicy: Never

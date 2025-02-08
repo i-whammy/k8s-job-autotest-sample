@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: registry-mock-svc
+  labels:
+    app: registry-mock-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 5000
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: registry-mock

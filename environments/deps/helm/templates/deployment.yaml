@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry-mock
+  labels:
+    app: registry-mock
+spec:
+  selector:
+    matchLabels:
+      app: registry-mock
+  template:
+    metadata:
+      labels:
+        app: registry-mock
+    spec:
+      containers:
+        - name: registry-mock
+          image: registry:2
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 5000
+              protocol: TCP
