@@ -10,8 +10,26 @@ build:
         dockerfile: apps/Dockerfile
   local:
     useBuildkit: true
-deploy:
-  helm:
-    releases:
-      - name: hello-world-timer-job
-        chartPath: charts/hello-world-timer-job
+
+profiles:
+- name: dev
+  deploy:
+    helm:
+      releases:
+        - name: hello-world-timer-job
+          chartPath: charts/hello-world-timer-job
+          setValueTemplates:
+            image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
+          setValues:
+            image.PullPolicy: "IfNotPresent"
+- name: prod
+  deploy:
+    helm:
+      releases:
+        - name: hello-world-timer-job
+          chartPath: charts/hello-world-timer-job
+          setValueTemplates:
+            image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
+          setValues:
+            image.PullPolicy: "IfNotPresent"
+            # image.PullPolicy: "Always" // set Always here when remote repository is available

@@ -8,4 +8,5 @@ spec:
       containers:
         - name: hello-world-timer
           image: hello-world-timer
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
       restartPolicy: Never
