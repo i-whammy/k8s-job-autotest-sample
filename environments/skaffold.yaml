@@ -2,6 +2,9 @@ apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: k8s-job-autotest-sample
+requires:
+  - configs:
+    path: deps/skaffold.yaml
 build:
   artifacts:
     - image: localhost:5000/hello-world-timer
@@ -10,7 +13,7 @@ build:
         dockerfile: apps/Dockerfile
   local:
     useBuildkit: true
-    push: true
+    push: false
 deploy:
   helm:
     releases:
@@ -22,13 +25,14 @@ deploy:
           image.PullPolicy: "IfNotPresent"
 
 profiles:
-- name: prod
-  deploy:
-    helm:
-      releases:
-        - name: hello-world-timer-job
-          chartPath: apps/helm
-            # setValueTemplates:
-            #   image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
-            # setValues:
-            #   image.PullPolicy: "Always"
+  - name: prod
+    deploy:
+      helm:
+        releases:
+          - name: hello-world-timer-job
+            chartPath:
+              apps/helm
+              # setValueTemplates:
+              #   image.pullPolicy: "{{ .IMAGE_PULL_POLICY }}"
+              # setValues:
+              #   image.PullPolicy: "Always"
